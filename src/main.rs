@@ -2,17 +2,17 @@
 #![no_main]
 use core::panic::PanicInfo;
 
-const GLOBAL_STRING : &'static str = "ABC";
+#[no_mangle]
+static mut GLOBAL_COUNTER:u8 = 1;
+//BL address: 0x000004A8
+//symbol address 0x00007000
 
 #[no_mangle]
-pub fn nothing() -> &'static str{
-    GLOBAL_STRING
+pub unsafe extern "C"  fn nothing(){
+    GLOBAL_COUNTER += 1;
 }  
 
 #[panic_handler]
 fn panic(_panic: &PanicInfo<'_>) -> ! {
     loop {}
 }
-
-// #[lang = "eh_personality"]
-// extern "C" fn eh_personality() {}

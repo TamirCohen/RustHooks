@@ -1,6 +1,7 @@
 MEMORY
 {
-  CODE : ORIGIN = 0x20007000, LENGTH = 5K
+  CODE : ORIGIN = 0x00007000, LENGTH = 5K
+  DATA : ORIGIN = 0x20000F00, LENGTH = 5K
 }
 
 /* TODO: Should delete in future - we need to tell the linker to keep all pubs */
@@ -13,10 +14,20 @@ SECTIONS
        *(.text .text.*);
    } > CODE
 
-   .rodata :
+   .rodata ORIGIN(DATA):
    {
        *(.rodata .rodata.*);
-   } > CODE
+   } > DATA
+
+   .bss :
+   {
+       *(.bss .bss.*);
+   } > DATA
+
+   .data :
+   {
+       *(.data .data.*);
+   } > DATA
 
    /DISCARD/ :
    {
