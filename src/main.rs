@@ -8,7 +8,6 @@ use alloc::boxed::Box;
 use linked_list_allocator::LockedHeap;
 use core::panic::PanicInfo;
 use alloc::alloc::AllocError;
-//TODO: We Compile nightly rust which is unstable
 
 #[no_mangle]
 static mut GLOBAL_COUNTER:u8 = 1;
@@ -19,6 +18,7 @@ const HEAP_SIZE :usize = 0x1000;
 //BL address: 0x000004A8
 //symbol address 0x00007000
 
+//TODO: We Compile nightly rust which is unstable
 //TODO: Remove the alloc_error_handler and use RCs
 //TODO: Lock the HEAP using lock interrupts instead of spin lock
 //TODO: compile all hooks (pub extern) by default (Instead os specifying extern)
@@ -39,9 +39,9 @@ pub unsafe extern "C" fn init(){
 }
 
 #[no_mangle]
-pub extern "C"  fn nothing(){
-    let allocte_box = try_alloc_on_heap();
-    
+pub unsafe extern "C"  fn nothing(){
+    GLOBAL_COUNTER +=1;
+    // let allocte_box = try_alloc_on_heap();
 }
 
 fn try_alloc_on_heap() -> Result<Box<u8>, AllocError> {
